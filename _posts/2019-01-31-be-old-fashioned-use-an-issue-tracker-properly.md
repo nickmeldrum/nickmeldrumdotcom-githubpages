@@ -6,6 +6,29 @@ date: 2019-01-31 22:57:26
 comments: true
 ---
 
+<div class="update">
+<p class="title">Update (6th December 2019):</p>
+<p>
+I have had some feedback that points to this potentially being a bit of an outdated way of thinking about things. Bear in mind, I wrote this for a more traditional enterprise team audience that perhaps isn't using their version control and code in the most modern way. So, for times when you can't get a good communication process centered around your code using commits, pull requests and up to date developer markdown documentation in the repository: This article still applies!
+</p>
+
+<p>
+The ideal though is summed up by this quote:
+</p>
+
+<blockquote>
+<p>
+Keep your conversation close to your code
+</p>
+</blockquote>
+
+
+<p>
+How do you do this? Write detailed well formed commit messages on well formed commits that do one thing. Have detailed conversations about code on Pull Requests. Have detailed conversations in issues that site next to the code (github does this very well for example.)
+</p>
+
+</div>
+
 ![Be the historian](/assets/images/historian.jpg)
 
 Note: this article is not specific to JIRA, though it's mentioned, it is just pretty prevalent as an "issue/story tracking tool" in my circles. It's a bit like talking about how to hoover instead of vacuum. (Apologies to Dyson.)

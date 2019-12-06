@@ -65,4 +65,13 @@ article {
     font-size: 14px;
     content: '- ';
   }
+
+  .update {
+    background: #fffa00;
+    padding: 5px 20px 3px 20px;
+  }
+  
+  .update > .title {
+    font-weight: bold;
+  }
 }
