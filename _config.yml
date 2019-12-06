@@ -1,0 +1,14 @@
+production_url: 'https://nickmeldrum.com'
+baseurl: ''
+encoding: utf-8
+syntax_highlighting: true
+highlighter: rouge
+source: site
+sass:
+  style: compressed
+twitter_username: 'nick_meldrum'
+github_username:  'nickmeldrum'
+theme: null
+markdown: kramdown
+permalink: 'blog/:title'
+paginate: 5
