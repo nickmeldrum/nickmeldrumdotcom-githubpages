@@ -3,7 +3,6 @@ baseurl: ''
 encoding: utf-8
 syntax_highlighting: true
 highlighter: rouge
-source: site
 sass:
   style: compressed
 twitter_username: 'nick_meldrum'
