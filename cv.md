@@ -3,6 +3,8 @@ layout: default
 title: "Nick Meldrum: Software development consultant"
 ---
 
+{% include quote-neal.html %}
+
  * Contact: [email nick@nickmeldrum.com](mailto:nick@nickmeldrum.com "Email Nick")
  * Location: [High Wycombe (Just outside London, near Reading)](https://goo.gl/maps/8dVaqStCfdu "location")
 
