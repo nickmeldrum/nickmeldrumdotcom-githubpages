@@ -12,7 +12,7 @@ and
 
 > "How do they do that? (support both callbacks by default *and* a `.promise()` method)"
 
-I realised these were 2 excellent questions to trigger an explanation of why we are where we are with promises and node. Maybe that can help us understand node and promises a bit better along the way.
+I realised these were 2 excellent questions to trigger an explanation of why and where we are with promises and node.
 
 On researching this topic I learnt about a fascinating issue with node and Promises. So this one's for you, Ravish!
 
@@ -44,7 +44,7 @@ fs.readFile('foo', (err, data) => {
 })
 {% endhighlight %}
 
-This is how Node.js accomplishes what Promises promises to do: Help async functions deal with return values and errors. This makes allowing a function higher up the callchain to deal with this error quite problematic. You would have to ensure the error is always passed up the callchain. It's possible, but you must manually implement your own implicit error propagation mechanism to manage it. A major problem is: what if some code in the middle decides to throw? This mechanism essentially means you are dealing with error propagation by passing errors up adn therefore cannot throw ever.
+This is how Node.js accomplishes what Promises promises to do: Help async functions deal with return values and errors. This makes allowing a function higher up the call chain to deal with this error quite problematic. You would have to ensure the error is always passed up the call chain. It's possible, but you must manually implement your own implicit error propagation mechanism to manage it. A major problem is: what if some code in the middle decides to throw? This mechanism essentially means you are dealing with error propagation by passing errors up and therefore cannot ever throw.
 
 ## let's remember the point of promises
 
@@ -70,12 +70,22 @@ Async/await are syntactic sugar on top of Promises, so all the issues talked abo
 
 ## So why is node still callbacks by default
 
+ * the important thing was to have a convention
+ * Node.js developers like simplicity and using "just functions"
+ * callback hell is simply fixed by breaking code out into small modules that do one thing
+ * you can wrap the conventional library calls into Promises if you choose to
+
 TODO: research node with references abou why library authors don't offer callbacks by default - presumably because it's "conventional to supply callbacks; because the node sdk uses callbacks; - other reasons?
 1 reason: post-mortem analysis of processes - no core dump in promises
    https://github.com/nodejs/node/pull/15335
 
    https://github.com/nodejs/post-mortem/issues/45
 
+Benefits of promises over the error-first callback?
+
+ * Your callback could be called twice
+ * Your callback could have been called with both the error and the result
+ * We can handle both exceptions and async errors in the same way (an exception is an error that is thrown, an async error is an error object returned in a callback function)
 
 > For those new to these discussions, to summarize the problem again most concisely: postmortem debugging with --abort-on-uncaught-exception collects the entire JavaScript and native state of the program (including all threads) in the precise context of the failure (so that stack state is preserved) with zero runtime cost until the failure happens, while promises explicitly specify that the program must continue executing after the point of the failure, meaning that state is necessarily mutated. Forking is the closest thing to having it both ways, but it has all of the drawbacks brought up here -- it's a heavy cost and it doesn't include all of the same state.
 
@@ -83,6 +93,11 @@ references:
 
  *  https://github.com/nodejs/promises/issues/26 - unhandled rejection behaviour
 https://github.com/nodejs/node/issues/830
+ * https://gist.github.com/sunnycmf/b2ad4f80a3b627f04ff2
+  * https://stackoverflow.com/questions/40511513/why-does-node-prefer-error-first-callback
+  * http://callbackhell.com/
+  * https://www.joyent.com/node-js/production/design/errors
+  * https://github.com/maxogden/art-of-node#callbacks
 
 ## How does node
 

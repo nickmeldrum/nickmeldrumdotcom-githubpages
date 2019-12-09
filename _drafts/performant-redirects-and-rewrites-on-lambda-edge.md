@@ -55,25 +55,25 @@ e.g.
 
 not using the canonical domain:
 
- * {% ihighlight text %}https://www.nickmeldrum.com/cv{% endihighlight %}
- * {% ihighlight text %}https://23hufh22zy.cloudfront.net/cv{% endihighlight %}
+ * `https://www.nickmeldrum.com/cv`
+ * `https://23hufh22zy.cloudfront.net/cv`
  
-and we redirect them to browse to {% ihighlight text %}https://nickmeldrum.com/cv{% endihighlight %} instead.
+and we redirect them to browse to `https://nickmeldrum.com/cv` instead.
 
 or customer including trailing slashes when there shouldn't be any:
 
-  * {% ihighlight text %}https://www.nickmeldrum.com/cv/{% endihighlight %} or
-  * {% ihighlight text %}https://www.nickmeldrum.com/cv//{% endihighlight %} or
-  * {% ihighlight text %}https://www.nickmeldrum.com/cv///{% endihighlight %} etc.
+  * `https://www.nickmeldrum.com/cv/` or
+  * `https://www.nickmeldrum.com/cv//` or
+  * `https://www.nickmeldrum.com/cv///` etc.
 
-and we redirect them to browse to {% ihighlight text %}https://nickmeldrum.com/cv{% endihighlight %} instead.
+and we redirect them to browse to `https://nickmeldrum.com/cv` instead.
 
 
 or customer tries to include index.html:
 
- * {% ihighlight text %}https://nickmeldrum.com/cv.html{% endihighlight %}
+ * `https://nickmeldrum.com/cv.html`
 
-and we redirect them to browse to, you guessed it: {% ihighlight text %}https://nickmeldrum.com/cv{% endihighlight %} instead.
+and we redirect them to browse to, you guessed it: `https://nickmeldrum.com/cv` instead.
 
 
 TODO:
