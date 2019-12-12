@@ -78,13 +78,13 @@ As the v8 dev team say in this [https://v8.dev/blog/fast-async](blog):
 
 > With async functions, the code becomes more succinct, and the control and data flow are a lot easier to follow, despite the fact that the execution is still asynchronous.
 
-# Everyone is using Promises nowadays
+## Everyone is using Promises nowadays
 
 In my experience in building business code (not library code) this is largely true. It makes sense as well, promises cut down on the complexity and boilerplate required to deal with async code.
 
-So, why the divide? Why do Node.js library code still conform to the error-first callback?
+So, why the divide?
 
-## So why **is** Node.js still "callbacks by default"
+## Why **is** Node.js still "callbacks by default"?
 
 Well here are *some* valid reasons:
 
@@ -101,19 +101,14 @@ So I researched a little more and came up with an absolute doozy of a real objec
 
 It turns out there is an objective serious issue baked into the Promises spec. The Node.js team are serious about their engine. One of the things they know their serious customers need is the ability to do a port-mortem analysis of a Node.js process. This includes a reliable code dump of the complete state of that process at the time an exception occurs.
 
-From j
-
-> For those new to these discussions, to summarize the problem again most concisely: postmortem debugging with --abort-on-uncaught-exception collects the entire JavaScript and native state of the program (including all threads) in the precise context of the failure (so that stack state is preserved) with zero runtime cost until the failure happens, while promises explicitly specify that the program must continue executing after the point of the failure, meaning that state is necessarily mutated. Forking is the closest thing to having it both ways, but it has all of the drawbacks brought up here -- it's a heavy cost and it doesn't include all of the same state.
-
-
-So, the problem is that promises require a program must continue executing after the point of failure as it's impossible to know whether an exception will be caught later on. The only option was to fork the process at the time of an exception to save the state.
-
 From the pull request for [adding --abort-on-uncaught-exception with promises](https://github.com/nodejs/node/issues/830
 ):
 
 > For those new to these discussions, to summarize the problem again most concisely: postmortem debugging with --abort-on-uncaught-exception collects the entire JavaScript and native state of the program (including all threads) in the precise context of the failure (so that stack state is preserved) with zero runtime cost until the failure happens, while promises explicitly specify that the program must continue executing after the point of the failure, meaning that state is necessarily mutated. Forking is the closest thing to having it both ways, but it has all of the drawbacks brought up here -- it's a heavy cost and it doesn't include all of the same state.
 
-Forking the exception specifically has 2 major drawbacks:
+So, the problem is that promises require a program must continue executing after the point of failure. This is because it's impossible to know whether an exception will be caught later on. The only option was to fork the process at the time of an exception, in order to save the state.
+
+Forking the exception specifically has some major drawbacks:
 
  1. It has a significant performance cost at the time an exception occurs *even if* that execption is caught later on
  2. Fork is not guaranteed to succeed because of potential memory limitations on the host
@@ -127,13 +122,13 @@ This is not an issue for the majority of application developers. But it's a sign
 
 So what's the answer? Probably the state we have it today. Core libraries expose the error-first callback by default and if you, the user, choose to use Promises you can go ahead. It's trivial to "promisify" a callback function:
 
-```
+{% highlight javascript %}
 const util = require('util')
 const fs = require('fs')
 
 const stat = util.promisify(fs.stat)
 // done :)
-```
+{% endhighlight %}
 
 ## And back to the AWS library then?
 
@@ -145,19 +140,19 @@ But they provide this handy `.promise()` method to satisfy the 99% of their user
 
 A list of places I went to research this article:
 
- * https://v8.dev/blog/fast-async
- * https://github.com/nodejs/node/pull/15335
- * https://github.com/nodejs/post-mortem/issues/45
- * https://github.com/nodejs/promises/issues/26
- * https://github.com/nodejs/node/issues/830
- * https://gist.github.com/sunnycmf/b2ad4f80a3b627f04ff2
- * https://stackoverflow.com/questions/40511513/why-does-node-prefer-error-first-callback
- * http://callbackhell.com/
- * https://www.joyent.com/node-js/production/design/errors
- * https://github.com/maxogden/art-of-node#callbacks
- * https://gist.github.com/domenic/3889970
- * http://fredkschott.com/post/2014/03/understanding-error-first-callbacks-in-node-js/
- * https://stackoverflow.com/questions/46900782/what-is-the-overhead-of-javascript-async-functions
+ * [https://v8.dev/blog/fast-async](https://v8.dev/blog/fast-async)
+ * [https://github.com/nodejs/node/pull/15335](https://github.com/nodejs/node/pull/15335)
+ * [https://github.com/nodejs/post-mortem/issues/45](https://github.com/nodejs/post-mortem/issues/45)
+ * [https://github.com/nodejs/promises/issues/26](https://github.com/nodejs/promises/issues/26)
+ * [https://github.com/nodejs/node/issues/830](https://github.com/nodejs/node/issues/830)
+ * [https://gist.github.com/sunnycmf/b2ad4f80a3b627f04ff2](https://gist.github.com/sunnycmf/b2ad4f80a3b627f04ff2)
+ * [https://stackoverflow.com/questions/40511513/why-does-node-prefer-error-first-callback](https://stackoverflow.com/questions/40511513/why-does-node-prefer-error-first-callback)
+ * [http://callbackhell.com/](http://callbackhell.com/)
+ * [https://www.joyent.com/node-js/production/design/errors](https://www.joyent.com/node-js/production/design/errors)
+ * [https://github.com/maxogden/art-of-node#callbacks](https://github.com/maxogden/art-of-node#callbacks)
+ * [https://gist.github.com/domenic/3889970](https://gist.github.com/domenic/3889970)
+ * [http://fredkschott.com/post/2014/03/understanding-error-first-callbacks-in-node-js/](http://fredkschott.com/post/2014/03/understanding-error-first-callbacks-in-node-js/)
+ * [https://stackoverflow.com/questions/46900782/what-is-the-overhead-of-javascript-async-functions](https://stackoverflow.com/questions/46900782/what-is-the-overhead-of-javascript-async-functions)
 
 ## Didn't you forget something?
 
@@ -167,7 +162,7 @@ Oh yes:
 
 I have no idea, but here's a naïve way of doing it just for fun. Obviously this would be abstracted in such a way that it could be reused across their SDK, but this is just an example. Also of interest is the way the `try {} catch {}` blocks are set up so the actual "do" method can just natively throw exception and the calling code will either turn them into the error callback or a promise rejection.
 
-```
+{% highlight javascript %}
 const doS3GetObject = params => {
     if (someErrorHappens) {
       throw new Error('uh oh, we borked')
@@ -198,7 +193,7 @@ const s3 = {
     }
   },
 }
-```
+{% endhighlight %}
 
 Thanks for reading and well done for getting through it! Please comment or let me know if you have anything to add or correct.
 
