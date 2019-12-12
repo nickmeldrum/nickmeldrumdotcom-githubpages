@@ -4,30 +4,30 @@ title: "AWS node and unfulfilled promises"
 ShortDescription: "What is up with this .promise() method in the aws node sdk?"
 ---
 
-A colleague came up to me the other day to ask me 2 very good questions:
+A colleague came up to me the other day to ask me two very good questions:
 
-> "Why does the AWS node sdk have this `.promise()` function that you can chain onto all it's methods? Why doesn't it just return a promise by default?"
+> "Why does the AWS node sdk have this `.promise()` function that you can chain onto all its methods? Why doesn't it just return a promise by default?"
 
 and
 
 > "How do they do that? (support both callbacks by default *and* a `.promise()` method)"
 
-I realised these were 2 excellent questions to trigger an explanation of why and where we are with promises and node.
+I realised these were two excellent questions to trigger an explanation of why and where we are with promises and node.
 
-On researching this topic I learnt about a fascinating issue with node and Promises. So this one's for you, Ravish!
+On researching this topic I learnt about a fascinating issue with node and promises. So this one's for you, Ravish!
 
 
-## Let's deal with the 1st question first:
+## Let's deal with the first question first:
 
-"Why doesn't the AWS node sdk just return a promise by default?" A simplistic answer to this is it's because for a long time, before Promises existed, the Node.js community settled on a convention that allows us to predictably deal with errors and return values in asynchronous functions. It's known as the "error-first callback" and if you've written much Node you will probably be familiar with it:
+"Why doesn't the AWS node sdk just return a promise by default?" A simplistic answer to this is it's because for a long time, before promises existed, the Node.js community settled on a convention that allows us to predictably deal with errors and return values in asynchronous functions. It's known as the "error-first callback" and if you've written much node you will probably be familiar with it:
 
 ## The error-first callback
 
-By default (as nodejs is of course asynchronous by default) node has a [callback convention](http://fredkschott.com/post/2014/03/understanding-error-first-callbacks-in-node-js/) called the "error-first" callback, sometimes cutely named the 'nodeback'.
+By default (as Node.js is of course asynchronous by default) node has a [callback convention](http://fredkschott.com/post/2014/03/understanding-error-first-callbacks-in-node-js/) called the "error-first" callback, sometimes cutely named the "nodeback".
 
 The convention is a form of [continuation passing style](https://en.wikipedia.org/wiki/Continuation-passing_style) that states:
 
-> "The last argument you pass us will be a callback function that expects it's 1st argument to be the error object and the rest of the arguments are the result."
+> "The last argument you pass us will be a callback function that expects its first argument to be the error object and the rest of the arguments are the result."
 
 > "You have to check the err object in your callback. If it's null, you can assume success, If it isn't you can now deal with the error scenario"
 
@@ -44,9 +44,9 @@ fs.readFile('foo', (err, data) => {
 })
 {% endhighlight %}
 
-This conventions allows us to accomplish what Promises "promises" to do: allow us to get return values from async functions *and* deal with errors. With a little help (or boilerplate) from a library like [async](https://www.npmjs.com/package/async) you can do some functional composition with these error-first callback style async functions too.
+This conventions allows us to accomplish what promises "promises" to do: allow us to get return values from async functions *and* deal with errors. With a little help (or boilerplate) from a library like [async](https://www.npmjs.com/package/async) you can do some functional composition with these error-first callback style async functions too.
 
-## So what's the point of Promises then?
+## So what's the point of promises then?
 
 There is an excellent and famous article entitled: ["You're missing the point of promises"](https://gist.github.com/domenic/3889970) Go have a read if you haven't as it's very interesting.
 
@@ -55,15 +55,15 @@ There is an excellent and famous article entitled: ["You're missing the point of
  > * Become fulfilled by a value
  > * Become rejected with an exception
  >
- > And, if you have a correctly implemented then function that follows Promises/A, then fulfillment and rejection will compose just like their synchronous counterparts, with fulfillments flowing up a compositional chain, but being interrupted at any time by a rejection that is only handled by someone who declares they are ready to handle it."
+ > And, if you have a correctly implemented then function that follows promises/A, then fulfillment and rejection will compose just like their synchronous counterparts, with fulfillments flowing up a compositional chain, but being interrupted at any time by a rejection that is only handled by someone who declares they are ready to handle it."
 
-However, every time I think of a way Promises do something that error-first callbacks don't, there is always a workaround for the callback methodology. For instance, just so long as every async function has a try/catch around it's own function and turns any throws into a `callback(err)` then we can deal with throwing. Just so long as we have a convention of passing an error back up the chain, we can deal with exceptions only being handled by someone who declares they want to handle them.
+However, every time I think of a way promises do something that error-first callbacks don't, there is always a workaround for the callback methodology. For instance, just so long as every async function has a try/catch around its own function and turns any throws into a `callback(err)` then we can deal with throwing. Just so long as we have a convention of passing an error back up the chain, we can deal with exceptions only being handled by someone who declares they want to handle them.
 
 There is always a workaround. Just so long as everyone subscribes to the same conventions, all the compositional challenges of flowing values up the compositional call chain or interrupting the flow with exceptions can be dealt with.
 
-So, Promises are just a different convention, with their own conventions that everyone would have to sign up to as well. Of course, I would argue that the boilerplate involved in the convention of Promises is much smaller and nicer, but that's largely subjective anyway.
+So, promises are just a different convention, with their own conventions that everyone would have to sign up to as well. Of course, I would argue that the boilerplate involved in the convention of promises is much smaller and nicer, but that's largely subjective anyway.
 
-I would argue that Promises make it *easier* to combine compositional workflows between async and sync functions, but it's important to note that this is still *possible* with the callback methodology.
+I would argue that promises make it *easier* to combine compositional workflows between async and sync functions, but it's important to note that this is still *possible* with the callback methodology.
 
 ## Other benefits of promises over the error-first callback?
 
@@ -78,7 +78,7 @@ As the v8 dev team say in this [https://v8.dev/blog/fast-async](blog):
 
 > With async functions, the code becomes more succinct, and the control and data flow are a lot easier to follow, despite the fact that the execution is still asynchronous.
 
-## Everyone is using Promises nowadays
+## Everyone is using promises nowadays
 
 In my experience in building business code (not library code) this is largely true. It makes sense as well, promises cut down on the complexity and boilerplate required to deal with async code.
 
@@ -90,27 +90,27 @@ Well here are *some* valid reasons:
 
  1. Node.js has years of libraries and production code already built on the convention of the error-first callback
  2. Node.js developers highly value simplicity and a basis of "just functions"
- 3. Most of the reasons people purported Promises to be useful turned out to be solvable with callbacks
+ 3. Most of the reasons people say promises to be useful turned out to be solvable with callbacks
  4. For a while the Node.js community tried to deal with the problem of "throwing in async code" by Domains which was eventually deprecated
 
-But none of them are objectively an absolute reason why it wasn't sensible to move to Promises.
+But none of them are objectively an absolute reason why it wasn't sensible to move to promises.
 
-So I researched a little more and came up with an absolute doozy of a real objective problem with using Promises.
+So I researched a little more and came up with an absolute doozy of a real objective problem with using promises.
 
 ## Core dumps and debugging
 
-It turns out there is an objective serious issue baked into the Promises spec. The Node.js team are serious about their engine. One of the things they know their serious customers need is the ability to do a port-mortem analysis of a Node.js process. This includes a reliable code dump of the complete state of that process at the time an exception occurs.
+It turns out there is an objective serious issue baked into the promises spec. The Node.js team are serious about their engine. One of the things they know their serious customers need is the ability to do a post-mortem analysis of a Node.js process. This includes a reliable code dump of the complete state of that process at the time an exception occurs.
 
 From the pull request for [adding --abort-on-uncaught-exception with promises](https://github.com/nodejs/node/issues/830
 ):
 
-> For those new to these discussions, to summarize the problem again most concisely: postmortem debugging with --abort-on-uncaught-exception collects the entire JavaScript and native state of the program (including all threads) in the precise context of the failure (so that stack state is preserved) with zero runtime cost until the failure happens, while promises explicitly specify that the program must continue executing after the point of the failure, meaning that state is necessarily mutated. Forking is the closest thing to having it both ways, but it has all of the drawbacks brought up here -- it's a heavy cost and it doesn't include all of the same state.
+> For those new to these discussions, to summarize the problem again most concisely: post-mortem debugging with --abort-on-uncaught-exception collects the entire JavaScript and native state of the program (including all threads) in the precise context of the failure (so that stack state is preserved) with zero runtime cost until the failure happens, while promises explicitly specify that the program must continue executing after the point of the failure, meaning that state is necessarily mutated. Forking is the closest thing to having it both ways, but it has all of the drawbacks brought up here -- it's a heavy cost and it doesn't include all of the same state.
 
 So, the problem is that promises require a program must continue executing after the point of failure. This is because it's impossible to know whether an exception will be caught later on. The only option was to fork the process at the time of an exception, in order to save the state.
 
 Forking the exception specifically has some major drawbacks:
 
- 1. It has a significant performance cost at the time an exception occurs *even if* that execption is caught later on
+ 1. It has a significant performance cost at the time an exception occurs *even if* that exception is caught later on
  2. Fork is not guaranteed to succeed because of potential memory limitations on the host
  3. It won't preserve the whole state in the core dump. Specifically: "State about thread pool threads or other threads created by libraries or other add-ons will be missing from the core file" (from the PR linked above)
 
