@@ -2,6 +2,8 @@
 layout: default
 title: "An intriguing reason why Node.js libraries aren't promises by default"
 ShortDescription: "What is up with this .promise() method in the aws node sdk?"
+date: 2019-12-12 17:34:12
+comments: true
 ---
 
 A colleague came up to me the other day to ask me two very good questions:
