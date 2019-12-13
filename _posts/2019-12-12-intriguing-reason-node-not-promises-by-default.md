@@ -65,11 +65,6 @@ So, promises are just a different convention, with their own conventions that ev
 
 I would argue that promises make it *easier* to combine compositional workflows between async and sync functions, but it's important to note that this is still *possible* with the callback methodology.
 
-## Other benefits of promises over the error-first callback?
-
- * Your callback could theoretically be called twice by accident. Promises guarantee your `then()` will only be called once
- * Your callback could have been called with both the error and the result by accident. Promises guarantee only the `then()` or the `catch()` will be called
-
 ## It's also how our brain works
 
 Probably the main reason we are moving towards promises (and even more so Async/await) is that it starts to make async code read like synchronous code. This was "possible" before using libraries like async, but a) there was no convention or standard and b) it was still more boilerplate and jumping through hoops.
