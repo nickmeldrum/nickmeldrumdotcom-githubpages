@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "AWS node and unfulfilled promises"
+title: "An intriguing reason why Node.js libraries aren't promises by default"
 ShortDescription: "What is up with this .promise() method in the aws node sdk?"
 ---
 
