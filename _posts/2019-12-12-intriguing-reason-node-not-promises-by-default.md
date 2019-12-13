@@ -113,7 +113,7 @@ Forking the exception specifically has some major drawbacks:
 
 ## Ah-ha! Finally an absolute objective reason why libraries should NOT provide promises by default
 
-So there we have it. If a library uses promises by default it removes the capability of a user of that library from getting a reliable usable core dump for doing postmortem debugging.
+So there we have it. If a library uses promises by default it removes the capability of a user of that library from getting a reliable usable core dump for doing post-mortem debugging.
 
 This is not an issue for the majority of application developers. But it's a significant and important issue for some users and an execution engine should absolute not limit this ability.
 
@@ -129,7 +129,7 @@ const stat = util.promisify(fs.stat)
 
 ## And back to the AWS library then?
 
-Well my guess is that they have decided to follow the Node.js convention, possibly for the reason that they want to allow reliable postmortem analysis of Node.js processes that are using their library.
+Well my guess is that they have decided to follow the Node.js convention, possibly for the reason that they want to allow reliable post-mortem analysis of Node.js processes that are using their library.
 
 But they provide this handy `.promise()` method to satisfy the 99% of their users that don't know or care about this issue.
 
