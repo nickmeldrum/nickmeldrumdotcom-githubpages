@@ -96,7 +96,7 @@ So I researched a little more and came up with an absolute doozy of a real objec
 
 ## Core dumps and debugging
 
-It turns out there is an objective serious issue baked into the promises spec. The Node.js team are serious about their engine. One of the things they know their serious customers need is the ability to do a post-mortem analysis of a Node.js process. This includes a reliable code dump of the complete state of that process at the time an exception occurs.
+It turns out there is an objective serious issue baked into the promises spec. The Node.js team are serious about their engine. One of the things they know their serious customers need is the ability to do a post-mortem analysis of a Node.js process. This includes a reliable core dump of the complete state of that process at the time an exception occurs.
 
 From the pull request for [adding --abort-on-uncaught-exception with promises](https://github.com/nodejs/node/issues/830
 ):
