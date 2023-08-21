@@ -10,6 +10,7 @@ title: "Nick Meldrum: Software development consultant"
 
 ## Work Highlights
 
+ * **Lead Engineer for Fixed Income Risk** at [troweprice.com](https://troweprice.com/ "T. Rowe Price"), Leading the Risk Engineering team at T. Rowe Price to deliver risk analytics insights helping investment risk oversight and portfolio managers to make better risk based decisions.
  * **Front-end Tech Lead** at [waitrose.com](https://waitrose.com/ "Waitrose"), forging and leading a front-end tribe across 5 cross functional teams; helping them adopt the latest front-end technologies, better agile practices and api/ microservice design
  * **Principal developer** at [planner.royallondon.com](https://planner.royallondon.com/ "Royal London Financial Planner"), taking on a variety of roles including software architect, technical authority, ScrumMaster, team leader and developer
  * **Engineer at Microsoft**, building [msn.co.uk](http://msn.co.uk/ "msn"): The UK's largest web portal at the time
